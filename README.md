@@ -3,6 +3,10 @@ The (buggy) textboard engine made with Lua
 
 Most everything can be changed in the config file and/or editing the HTML/CSS files.
 
+## HTTPS
+
+Use Let's Encrypt. Just do it.
+
 ## Requires
 [Luvit](https://luvit.io/)
 
