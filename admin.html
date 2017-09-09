@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<title>Luna - We Don't Like Skiddies</title>
-		<link rel="stylesheet" type="text/css" href="../../../static/assets/theme.css">
+		<link rel="stylesheet" type="text/css" href="/static/assets/theme.css">
 		<style>
 			#time {
 				color: darkred;
@@ -15,7 +15,7 @@
 			function time() {
 				timeobj = document.getElementById("time");
 				setInterval(function() {
-					
+
 					remaining = utime-((new Date()).getTime()/1000);
 					hours = Math.floor(remaining/3600);
 					mins = Math.floor(remaining/60 - (hours*60));

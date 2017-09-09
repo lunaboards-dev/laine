@@ -7,7 +7,7 @@
 		<meta property="og:site_name" content="Luna" />
 		<meta property="og:url" content="http://lunaboards.tk/<BOARD />/new" />
 		<meta property="og:image" content="http://lunaboards.tk/static/assets/moooon.png" />
-		<link rel="icon" type="image/png" href="../../../static/assets/moooon.png">
+		<link rel="icon" type="image/png" href="/static/assets/moooon.png">
 		<script>
 			function update() {
 				if (isAndroid) {
@@ -35,10 +35,10 @@
 				xmlhttp.send(JSON.stringify({title:document.getElementById("title").value,content:document.getElementById("content").value, board: board}));
 			}
 		</script>
-		 <link rel="stylesheet" type="text/css" href="../../../static/assets/theme.css">
+		 <link rel="stylesheet" type="text/css" href="/static/assets/theme.css">
 	</head>
 	<body onload="update()">
-		<h1 class="Header"><a href="../../../../<BOARD />" class="hlink">New Thread</a></h1>
+		<h1 class="Header"><a href="/<BOARD />" class="hlink">New Thread</a></h1>
 		<span>Title:</span><br>
 		<input id="title" maxlength="30"><br>
 		<span>Content:</span><br>
