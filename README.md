@@ -21,3 +21,11 @@ Use Let's Encrypt. Just do it.
 [utf8.lua](https://github.com/alexander-yakushev/awesompd/blob/master/utf8.lua)
 
 [crc32.lua](https://github.com/davidm/lua-digest-crc32lua/blob/master/lmod/digest/crc32lua.lua)
+
+## Problems (There are lots!)
+
+Well, first off, databases don't load. At all. No clue why.
+
+And locked threads don't turn grey.
+
+And unlocking doesn't work.
