@@ -1,0 +1,39 @@
+<html prefix="og: http://ogp.me/ns#">
+	<head>
+		<title>Luna - Late Night Shitposting</title>
+		<meta property="og:title" content="Late Night Shitposting" />
+		<meta property="og:site_name" content="Luna" />
+		<meta property="og:url" content="http://lunaboards.tk/" />
+		<meta property="og:image" content="http://lunaboards.tk/static/assets/moooon.png" />
+		<link rel="icon" type="image/png" href="../../../static/assets/moooon.png">
+		<link rel="stylesheet" type="text/css" href="../../../static/assets/theme.css">
+		<meta property="og:description" content="A simple, shitty textboard." />
+		<meta property="description" content="A simple, shitty textboard." />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script>
+			function update() {
+				isAndroid = (navigator.userAgent == "Mozilla/5.0 (Android) LunaApp/1.0")
+				if (isAndroid) {
+					document.getElementById("version").innerHTML = document.getElementById("version").innerHTML + " Mobile";
+				}
+			}
+		</script>
+	</head>
+	<body onload="update()">
+		<svg xmlns="http://www.w3.org/2000/svg" height="0">
+			<filter id="svgBlur">
+			<feGaussianBlur stdDeviation="2.5" result="fpr1" in="SourceGraphic"/>
+			<feMerge>
+			  <feMergeNode in="SourceGraphic"/>
+			  <feMergeNode in="fpr1"/>
+			</feMerge>
+		  </filter>
+		</svg>
+		<h1 class="Header" style="font-size: 100pt">Luna</h1>
+		<div style="color:darkred">Assume all boards are NSFW</div>
+		<BOARDS />
+		<br>
+		<br>
+		<small id="version">Laine <VERSION /></small>
+	</body>
+</html>

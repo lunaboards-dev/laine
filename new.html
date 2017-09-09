@@ -1,0 +1,50 @@
+<html prefix="og: http://ogp.me/ns#">
+	<head>
+		<title>Luna/<BOARD />/ - New Thread</title>
+		<meta name="board" content="<BOARD />">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta property="og:title" content="/<BOARD />/ - New Thread" />
+		<meta property="og:site_name" content="Luna" />
+		<meta property="og:url" content="http://lunaboards.tk/<BOARD />/new" />
+		<meta property="og:image" content="http://lunaboards.tk/static/assets/moooon.png" />
+		<link rel="icon" type="image/png" href="../../../static/assets/moooon.png">
+		<script>
+			function update() {
+				if (isAndroid) {
+					isAndroid = (navigator.userAgent == "Mozilla/5.0 (Android) LunaApp/1.0")
+					document.getElementById("version").innerHTML = document.getElementById("version").innerHTML + " Mobile";
+					document.getElementById("content").style.width = "95vw";//Math.round(android.getViewWidth()*0.98)+"px";
+				}
+			}
+		</script>
+		<script>
+			var board = "<BOARD />";
+			function submit() {
+				submit = null
+				document.getElementById("content").disabled = "disabled";
+				document.getElementById("title").disabled = "disabled";
+				document.getElementById("button").disabled = "disabled";
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						window.location.href = window.location.href.replace("new", this.responseText);
+					}
+				};
+				xmlhttp.open("POST", window.location.href.replace("new", "nt"), true);
+				xmlhttp.setRequestHeader("Content-type", "application/json");
+				xmlhttp.send(JSON.stringify({title:document.getElementById("title").value,content:document.getElementById("content").value, board: board}));
+			}
+		</script>
+		 <link rel="stylesheet" type="text/css" href="../../../static/assets/theme.css">
+	</head>
+	<body onload="update()">
+		<h1 class="Header"><a href="../../../../<BOARD />" class="hlink">New Thread</a></h1>
+		<span>Title:</span><br>
+		<input id="title" maxlength="30"><br>
+		<span>Content:</span><br>
+		<textarea id="content" rows="7" cols="50" style="resize: none;"></textarea><br>
+		<button id="button" onclick="submit()">Submit</button><br>
+		<br>
+		<small id="version">Laine <VERSION /></small>
+	</body>
+</html>
