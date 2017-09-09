@@ -19,3 +19,5 @@ Use Let's Encrypt. Just do it.
 [ansicolors](https://github.com/hoelzro/ansicolors)
 
 [utf8.lua](https://github.com/alexander-yakushev/awesompd/blob/master/utf8.lua)
+
+[crc32.lua](https://github.com/davidm/lua-digest-crc32lua/blob/master/lmod/digest/crc32lua.lua)
