@@ -17,3 +17,5 @@ Use Let's Encrypt. Just do it.
 [weblit](https://github.com/creationix/weblit)
 
 [ansicolors](https://github.com/hoelzro/ansicolors)
+
+[utf8.lua](https://github.com/alexander-yakushev/awesompd/blob/master/utf8.lua)
