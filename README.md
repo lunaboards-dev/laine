@@ -22,6 +22,8 @@ Use Let's Encrypt. Just do it.
 
 [crc32.lua](https://github.com/davidm/lua-digest-crc32lua/blob/master/lmod/digest/crc32lua.lua)
 
+[Font Awesome](http://fontawesome.io/)
+
 ## Problems (There are lots!)
 
 Well, first off, databases don't load. At all. No clue why.
