@@ -3,6 +3,8 @@ The (buggy) textboard engine made with Lua
 
 Most everything can be changed in the config file and/or editing the HTML/CSS files.
 
+This has been abandoned soon after it was uploaded to GitHub, as it is being ported to Node.JS. :(
+
 ## HTTPS
 
 Use Let's Encrypt. Just do it.
