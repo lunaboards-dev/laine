@@ -142,9 +142,11 @@ end)
     local data = json.parse(req.body)
     --Check if valid board.
     if (cfg["board_"..data.board] == nil) then return end
+    --Make sure the title is not too long.
     if (1 > utf8.len(data.title) or 40 < utf8.len(data.title)) then
         data.title="sam likes dick"
     end
+    --Make sure the post is not too long.
     if (1 > utf8.len(data.content) or 2000 < utf8.len(data.content)) then
         data.content = "and that's why we should take over poland"
     end
@@ -152,20 +154,34 @@ end)
     local id = math.random(1, 2^32)
     while tl do
         p(id)
+        --Make sure the ID doesn't exist
         local cur = assert(con:execute("SELECT name FROM threads WHERE id='"..con:escape(id).."' AND board='"..con:escape(data.board).."'"))
         local t = cur:fetch()
         p(t)
         if (t ~= nil) then
             local id = math.random(1, 2^32)
         else
+            --Just to be sure!
             t = nil
         end
     end
     p(id)
-    assert(con:execute(string.format("INSERT INTO threads VALUES ('%s', '%s', "..id..", '%s', %d, 0, 0)", con:escape(data.board), con:escape(data.title), con:escape(req.headers["X-Forwarded-For"] or "localhost"), os.time())))
-    assert(con:execute(string.format("INSERT INTO posts VALUES ('%s', '%s', '%s', '%s', '')", con:escape(data.board), id, con:escape(req.headers["X-Forwarded-For"] or "localhost"), con:escape(data.content))))
-    res.body = tostring(id)
+    --Insert
+    assert(con:execute(string.format("INSERT INTO threads VALUES ('%s', '%s', %d, '%s', %d, 0, 0)", con:escape(data.board), con:escape(data.title), id, con:escape(req.headers["X-Forwarded-For"] or "localhost"), os.time())))
+    assert(con:execute(string.format("INSERT INTO posts VALUES (%d, '%s', '%s', '%s', '%s', '')", os.time(), con:escape(data.board), id, con:escape(req.headers["X-Forwarded-For"] or "localhost"), con:escape(data.content))))
+    res.body = tostring(id) --It took way too long to figure out why this wouldn't work.
     res.code = 200
+end)
+
+.route({path="/:board/:id"}, function(req, res)
+    --Make sure board and ID exist.
+    if (cfg["board_"..req.params.board] == nil) then return end
+    local cur = assert(con:execute("SELECT name FROM threads WHERE id='"..con:escape(req.params.id).."' AND board='"..con:escape(req.params.board).."'"))
+    --Get the name while we're at it.
+    local thdinfo = cur:fetch({}, "a")
+    cur:close() --Close it!
+    if (thdinfo == nil) then return end
+    cur = assert(con:execute(""))
 end)
 
 .start()
