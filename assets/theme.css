@@ -1,0 +1,97 @@
+@font-face {
+ font-family:'NeonPixel';
+ src:url('neon_pixel-7.ttf');
+ font-weight:normal;
+ font-style:normal;
+}
+@font-face {
+ font-family:'SmallPixel';
+ src:url('small_pixel-7.ttf');
+ font-weight:normal;
+ font-style:normal;
+}
+@font-face {
+ font-family:'7Seg';
+ src:url('dseg7.ttf');
+ font-weight:normal;
+ font-style:normal;
+}
+
+
+h1 {
+	font-family: 'NeonPixel';
+	font-size: 60pt;
+	font-weight: initial;
+	text-align: center;
+	filter: url("../../../../static/assets/filter.svg#svgGlow") !important;
+	-webkit-filter: url("../../../../static/assets/filter.svg#svgGlow") !important;
+}
+
+body {
+	font-family: 'SmallPixel';
+	font-size: 20pt;
+	font-weight: initial;
+	text-align: center;
+	color: white;
+	background: black;
+	letter-spacing: 1px;
+}
+
+body > * {
+	filter: url("../../../../static/assets/filter.svg#svgGlowS");
+	-webkit-filter: url("../../../../static/assets/filter.svg#svgGlowS");
+}
+
+textarea, input, button {
+	filter: initial;
+	-webkit-filter: initial;
+	font-size: 20pt;
+	background-color: black;
+	color: white;
+	font-family: 'SmallPixel';
+	border: 0px solid white;
+	text-shadow: 0px 0px 3px lightgrey;
+}
+
+
+textarea {
+	border-width: 1px;
+}
+
+input {
+	border-bottom: 1px solid white;
+}
+
+a {
+	color: white;
+	text-decoration: none;
+}
+a:visited {
+	color: white;
+}
+
+.hlink {
+	color: white !important;
+	text-decoration: none;
+}
+
+.post {
+	text-align: left;
+	padding-left: 3vw;
+}
+.post::before  {
+	content: " | "
+}
+
+.closed_thread {
+	color: grey !important;
+}
+a.userlink {
+	color: #86C7FF !important;
+    text-decoration: underline;
+}
+a.userlink:visited {
+	color: #A784E8 !important;
+}
+::-moz-selection { border: 1px solid white }
+::selection { border: 1px solid white }
