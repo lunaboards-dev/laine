@@ -15,6 +15,7 @@ local thread = require('thread')
 local utf8 = require('utf8')
 local net = require('net')
 local json = require("json").use_lpeg()
+local lnutils = require("laine-utils")
 
 --Load config
 print("Loading config...")
@@ -153,11 +154,9 @@ end)
     local t = {}
     local id = math.random(1, 2^32)
     while tl do
-        p(id)
         --Make sure the ID doesn't exist
         local cur = assert(con:execute("SELECT name FROM threads WHERE id='"..con:escape(id).."' AND board='"..con:escape(data.board).."'"))
         local t = cur:fetch()
-        p(t)
         if (t ~= nil) then
             local id = math.random(1, 2^32)
         else
@@ -165,11 +164,30 @@ end)
             t = nil
         end
     end
-    p(id)
     --Insert
     assert(con:execute(string.format("INSERT INTO threads VALUES ('%s', '%s', %d, '%s', %d, 0, 0)", con:escape(data.board), con:escape(data.title), id, con:escape(req.headers["X-Forwarded-For"] or "localhost"), os.time())))
-    assert(con:execute(string.format("INSERT INTO posts VALUES (%d, '%s', '%s', '%s', '%s', '')", os.time(), con:escape(data.board), id, con:escape(req.headers["X-Forwarded-For"] or "localhost"), con:escape(data.content))))
+    assert(con:execute(string.format("INSERT INTO posts VALUES (%d, '%s', '%s', '%s', '%s', '')", os.time(), con:escape(data.board), id, con:escape(req.headers["X-Forwarded-For"] or "localhost"), con:escape(lnutils.ptext(lnutils.escape_html(data.content))))))
     res.body = tostring(id) --It took way too long to figure out why this wouldn't work.
+    res.code = 200
+end)
+--Posting
+.route({
+    path="/:board/post",
+    method="POST"
+}, function(req, res)
+    local data=json.parse(req.body)
+    --Do our checks
+    if (cfg["board_"..data.board] == nil) then return end
+    local cur = assert(con:execute("SELECT name, locked FROM threads WHERE id='"..con:escape(data.id).."' AND board='"..con:escape(data.board).."'"))
+    local thdinfo = cur:fetch({}, "a")
+    cur:close() --Close it!
+    if (thdinfo == nil) then return end
+    --Make sure the post is not too long.
+    if (1 > utf8.len(data.content) or 2000 < utf8.len(data.content)) then
+        data.content = "and that's why we should take over poland"
+    end
+    assert(con:execute(string.format("INSERT INTO posts VALUES (%d, '%s', '%s', '%s', '%s', '')", os.time(), con:escape(data.board), con:escape(data.id), con:escape(req.headers["X-Forwarded-For"] or "localhost"), con:escape(lnutils.ptext(lnutils.escape_html(data.content))))))
+    res.body = "ok"
     res.code = 200
 end)
 
@@ -187,7 +205,7 @@ end)
     local posts = {}
     local r = {}
     while r do
-        r = cur:fetch(res, "a")
+        r = cur:fetch({}, "a")
         if (r ~= nil) then
             posts[#posts+1] = r
         end
@@ -199,7 +217,7 @@ end)
         return a.date < b.date
     end)
     --Render
-    res.body = lustache:render(templates["thread"], {board=req.params.board, id=req.params.id, locked=thdinfo.locked~="0", posts=posts, desc1=cfg["board_"..req.params.board].desc1, version=version})
+    res.body = lustache:render(templates["thread"], {title=thdinfo.name, board=req.params.board, id=req.params.id, locked=thdinfo.locked~="0", posts=posts, desc1=cfg["board_"..req.params.board].desc1, version=version})
     res.code = 200
 end)
 

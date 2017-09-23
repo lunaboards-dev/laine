@@ -36,7 +36,7 @@
 						location.reload(true)
 					}
 				};
-				xmlhttp.open("POST", window.location.href.replace("<ID />", "post"), true);
+				xmlhttp.open("POST", window.location.href.replace("{{id}}", "post"), true);
 				xmlhttp.setRequestHeader("Content-type", "application/json");
 				xmlhttp.send(JSON.stringify({content:document.getElementById("content").value, board: board, id: id}));
 			}
@@ -58,7 +58,7 @@
 		<h1 class="Header"><a href="/{{board}}/" class="hlink">{{desc1}}</a></h1>
 		<div style="font-size: 30pt">{{title}}</div><br>
 		{{#posts}}
-			<div class="post">{{post}}</div>
+			<div class="post">{{{post}}}</div><br>
 		{{/posts}}
 		<br>
 		{{^locked}}
@@ -70,6 +70,6 @@
 		{{#locked}}
 		<div id="replytext">This thread has been locked</div>
 		{{/locked}}
-		<small id="version">Laine {{version}}></small>
+		<small id="version">Laine {{version}}</small>
 	</body>
 </html>
