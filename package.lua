@@ -9,6 +9,9 @@
     dependencies = {},
     files = {
       "**.lua",
+      "views/**.**",
+      "assets/style.css",
+      "config.ini",
       "!test*"
     }
   }
