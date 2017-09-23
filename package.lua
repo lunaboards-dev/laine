@@ -6,7 +6,8 @@
     license = "MIT",
     author = { name = "Jane Roxanne", email = "janeroxanne0@gmail.com" },
     homepage = "https://github.com/Adorable-Catgirl/laine",
-    dependencies = {},
+    dependencies = {
+    },
     files = {
       "**.lua",
       "views/**.**",
