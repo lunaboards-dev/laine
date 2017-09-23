@@ -55,16 +55,21 @@
 		</script>
 	</head>
 	<body onload="clr()">
-		<h1 class="Header"><a href="/{{board}}/" class="hlink"><DESC1 /></a></h1>
+		<h1 class="Header"><a href="/{{board}}/" class="hlink">{{desc1}}</a></h1>
 		<div style="font-size: 30pt">{{title}}</div><br>
 		{{#posts}}
-			{{{controls}}}
+			<div class="post">{{post}}</div>
 		{{/posts}}
 		<br>
+		{{^locked}}
 		<a id="refresh" href="javascript:location.reload(true)">Refresh</a><br>
 		<div id="replytext">Reply:</div>
 		<textarea id="content" rows="7" cols="50" style="resize: none;"></textarea><br>
 		<button id="submit" onclick="submit()">Submit</button><br>
+		{{/locked}}
+		{{#locked}}
+		<div id="replytext">This thread has been locked</div>
+		{{/locked}}
 		<small id="version">Laine {{version}}></small>
 	</body>
 </html>

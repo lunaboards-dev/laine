@@ -176,12 +176,31 @@ end)
 .route({path="/:board/:id"}, function(req, res)
     --Make sure board and ID exist.
     if (cfg["board_"..req.params.board] == nil) then return end
-    local cur = assert(con:execute("SELECT name FROM threads WHERE id='"..con:escape(req.params.id).."' AND board='"..con:escape(req.params.board).."'"))
+    local cur = assert(con:execute("SELECT name, locked FROM threads WHERE id='"..con:escape(req.params.id).."' AND board='"..con:escape(req.params.board).."'"))
     --Get the name while we're at it.
     local thdinfo = cur:fetch({}, "a")
     cur:close() --Close it!
     if (thdinfo == nil) then return end
-    cur = assert(con:execute(""))
+    --Get posts
+    cur = assert(con:execute("SELECT * FROM posts WHERE id='"..con:escape(req.params.id).."'"))
+    --Put them in a nice table.
+    local posts = {}
+    local r = {}
+    while r do
+        r = cur:fetch(res, "a")
+        if (r ~= nil) then
+            posts[#posts+1] = r
+        end
+    end
+    --TODO add admin check and shit
+
+    --Sort by date.
+    table.sort(posts, function(a, b)
+        return a.date < b.date
+    end)
+    --Render
+    res.body = lustache:render(templates["thread"], {board=req.params.board, id=req.params.id, locked=thdinfo.locked~="0", posts=posts, desc1=cfg["board_"..req.params.board].desc1, version=version})
+    res.code = 200
 end)
 
 .start()
