@@ -24,7 +24,7 @@ install:
 	mkdir -p /opt/laine/
 	cp -rv . /opt/laine/
 	chown -R laine:laine /opt/laine
-	cp laine.service /etc/systemd/laine/
+	cp laine.service /etc/systemd/laine.service
 	systemctl daemon-reload
 ubuntu-packages:
 	apt install lua5.1
