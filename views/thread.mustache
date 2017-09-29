@@ -55,9 +55,12 @@
 		</script>
 	</head>
 	<body onload="clr()">
-		<h1 class="Header"><a href="/{{board}}/" class="hlink">{{desc1}}</a></h1>
+		<h1 class="Header"><a href="/{{board}}" class="hlink">{{desc1}}</a></h1>
 		<div style="font-size: 30pt">{{title}}</div><br>
 		{{#posts}}
+			{{#admin}}
+				{{{admin}}}
+			{{/admin}}
 			<div class="post">{{{post}}}</div><br>
 		{{/posts}}
 		<br>
