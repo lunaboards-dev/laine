@@ -19,6 +19,13 @@ install:
 	cd deps && lua ../setup/setup.lua
 	rm -rf temp
 	rm -rf lustache
+	useradd laine ||:
+	usermod -a -G laine laine
+	mkdir -p /opt/laine/
+	cp -rv . /opt/laine/
+	chown -R laine:laine /opt/laine
+	cp laine.service /etc/systemd/laine/
+	systemctl daemon-reload
 ubuntu-packages:
 	apt install lua5.1
 	apt install luarocks
