@@ -12,7 +12,7 @@ On Ubuntu, run `sudo make ubuntu && sudo make`
 
 Hopefully it works?
 
-## Requires
+## Requires (These should be installed hopefullly?)
 
 [LuaSQL (MySQL)](https://keplerproject.github.io/luasql/)
 
