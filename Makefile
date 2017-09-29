@@ -15,7 +15,7 @@ install:
 	cp -r temp/lib/lua/5.1/luasql deps/luasql
 	cp -r lustache/src/lustache deps
 	cp lustache/src/lustache.lua deps/lustache.lua
-	sudo chmod -R 755 deps
+	chmod -R 755 deps
 	cd deps && lua ../setup/setup.lua
 	rm -rf temp
 	rm -rf lustache
