@@ -52,6 +52,12 @@ local function log(s, l)
 	fs.appendFileSync(pathJoin(module.dir, "access.log"), "["..os.date('%Y-%m-%d %H:%M:%S', os.time()).." "..l.."] "..s.."\r\n")
 end
 
+--Load IP bans and shit.
+local ipbans = {}
+if (fs.existsSync("ipbans.json")) then
+    ipbans = json.parse(fs.readFileSync("ipbans.json"))
+end
+fs.writeFileSync("ipbans.json", json.stringify(ipbans))
 --Has perms function
 local function hasperm(a, p)
     return lnutils.has_perm(cfg, a.admin, p)
@@ -91,6 +97,58 @@ end)
 
 --Static assets.
 .route({path = "/static/assets/:path:"}, static(pathJoin(module.dir, cfg.General.static_dir)))
+
+--Rate limiting+Bans
+.use(function(req, res, go)
+    if (ipbans[req.headers["X-Forwarded-For"]] == nil) then
+        ipbans[req.headers["X-Forwarded-For"]] = {
+            cooldowns = 0,
+            nextpost = os.time(),
+            nextban = 86400,
+            unban = 0,
+            uncool = 0,
+            posts = 0,
+        }
+    end
+    local i = ipbans[req.headers["X-Forwarded-For"]]
+    if (req.admin == nil) then
+        if (i.unban > os.time()) then
+            res.body = templates["blocked"]
+            res.code = 401
+            return
+        elseif (i.uncool > os.time()) then
+            if (req.method ~= "POST") then return go() end
+            res.body = "Cooldown, strike "..i.cooldowns.."/3!"
+            res.code = 429
+            return
+        else
+            if (req.method ~= "POST") then return go() end
+            if (i.nextpost > os.time()) then
+                i.posts = i.posts+1
+                if (i.posts > 3) then
+                    i.uncool = os.time()+10
+                    i.cooldowns = i.cooldowns + 1
+                    if (i.cooldowns == 3) then
+                        i.cooldowns = 0
+                        i.unban = os.time()+i.nextban
+                        i.nextban = i.nextban*2
+                        res.body = templates["blocked"]
+                        res.code = 401
+                        return
+                    else
+                        res.body = "Cooldown, strike "..i.cooldowns.."/3!"
+                        res.code = 429
+                        return
+                    end
+                end
+            else
+                i.posts = 1
+                i.nextpost = os.time()+1
+            end
+        end
+    end
+    return go()
+end)
 
 .route({
     path="/login",
@@ -338,5 +396,18 @@ function threadgc()
 end
 
 threadgc()
+
+timer.setInterval(60*60*10, function()
+    templates = {
+        ["boards"] = fs.readFileSync(pathJoin(module.dir, cfg.General.template_dir, "boards.mustache")),
+        ["threads"] = fs.readFileSync(pathJoin(module.dir, cfg.General.template_dir, "threads.mustache")),
+        ["thread"] = fs.readFileSync(pathJoin(module.dir, cfg.General.template_dir, "thread.mustache")),
+        ["new"] = fs.readFileSync(pathJoin(module.dir, cfg.General.template_dir, "new.mustache")),
+        ["404"] = fs.readFileSync(pathJoin(module.dir, cfg.General.template_dir, "404.html")),
+        ["blocked"] = fs.readFileSync(pathJoin(module.dir, cfg.General.template_dir, "blocked.mustache")),
+        ["login"] = fs.readFileSync(pathJoin(module.dir, cfg.General.template_dir, "login.html")),
+    }
+    fs.writeFileSync("ipbans.json", json.stringify(ipbans))
+end)
 
 timer.setInterval(60*60*30, threadgc)
