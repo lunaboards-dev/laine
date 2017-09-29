@@ -6,6 +6,7 @@ install:
 	chmod 755 luvit
 	chmod 755 lit
 	chmod 755 luvi
+	chmod 775 run.sh
 	mkdir deps
 	luarocks install --tree=temp luasql-mysql MYSQL_INCDIR=/usr/include/mysql
 	curl https://raw.githubusercontent.com/Dynodzzo/Lua_INI_Parser/master/LIP.lua > deps/LIP.lua
