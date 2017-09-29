@@ -20,6 +20,6 @@ Hopefully it works?
 
 [LIP](https://github.com/Dynodzzo/Lua_INI_Parser)
 
-utf8.lua (I have to find this then have it get downloaded in the setup)
+[utf8.lua](https://github.com/Stepets/utf8.lua)
 
 [Weblit](https://github.com/creationix/weblit)
