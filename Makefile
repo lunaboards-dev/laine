@@ -11,6 +11,8 @@ install:
 	luarocks install --tree temp lustache
 	echo 'Downloading LIP...'
 	curl https://raw.githubusercontent.com/Dynodzzo/Lua_INI_Parser/master/LIP.lua > deps/LIP.lua
+	echo 'Downloading utf8.lua...'
+	curl https://raw.githubusercontent.com/Stepets/utf8.lua/master/utf8.lua > deps/utf8.lua
 	echo 'Downloading Weblit...'
 	./lit install creationix/weblit
 	echo 'Copying deps from temp folder...'
