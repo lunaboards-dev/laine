@@ -1,4 +1,3 @@
-#The Luna makefile. I can't test this atm.
 install:
 	echo 'Cleaning up last setup...'
 	rm -rf deps
@@ -32,7 +31,7 @@ install:
 	rm -rf temp
 	rm -rf lustache
 	echo 'Setup complete. Run ./luvit main.lua in the terminal to start.'
-ubuntu:
+ubuntu-packages:
 	apt install lua5.1
 	apt install luarocks
 	apt install curl
