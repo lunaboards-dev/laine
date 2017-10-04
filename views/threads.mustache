@@ -13,7 +13,74 @@
 		<link rel="icon" type="image/png" href="/static/assets/moooon.png">
 		<script>
 			var board = "{{board}}";
-			<ADMINSCRIPT />
+			{{#admin}}
+			function deleteT(id) {
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						location.reload(true)
+					}
+				};
+				xmlhttp.open("POST", "/cmd", true);
+				xmlhttp.setRequestHeader("Content-type", "application/json");
+				xmlhttp.send(JSON.stringify({cmd:"mark", board: board, id: id}));
+			}
+			function lock(id) {
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						location.reload(true)
+					}
+				};
+				xmlhttp.open("POST", "/cmd", true);
+				xmlhttp.setRequestHeader("Content-type", "application/json");
+				xmlhttp.send(JSON.stringify({cmd:"lock", board: board, id: id}));
+			}
+			function pin(id) {
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						location.reload(true)
+					}
+				};
+				xmlhttp.open("POST", "/cmd", true);
+				xmlhttp.setRequestHeader("Content-type", "application/json");
+				xmlhttp.send(JSON.stringify({cmd:"pin", board: board, id: id}));
+			}
+			function unpin(id) {
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						location.reload(true)
+					}
+				};
+				xmlhttp.open("POST", "/cmd", true);
+				xmlhttp.setRequestHeader("Content-type", "application/json");
+				xmlhttp.send(JSON.stringify({cmd:"unpin", board: board, id: id}));
+			}
+			function unlock(id) {
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						location.reload(true)
+					}
+				};
+				xmlhttp.open("POST", "/cmd", true);
+				xmlhttp.setRequestHeader("Content-type", "application/json");
+				xmlhttp.send(JSON.stringify({cmd:"unlock", board: board, id: id}));
+			}
+			function ipban(ip) {
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						location.reload(true)
+					}
+				};
+				xmlhttp.open("POST", board+"/cmd", true);
+				xmlhttp.setRequestHeader("Content-type", "application/json");
+				xmlhttp.send(JSON.stringify({cmd:"banip", ip: ip, board: board, id: id}));
+			}
+			{{/admin}}
 		</script>
 		<script>
 			function update() {
@@ -31,7 +98,29 @@
 		<center>
 			<a href="/{{board}}/new">New Thread</a><br>
 			<a href="javascript:location.reload(true)">Refresh</a><br>
+			<br>
 			{{#threads}}
+				{{#admin}}
+					{{#canpin}}
+						{{^pinned}}
+							<i onclick="pin('{{id}}')" class="fa fa-thumb-tack"></i>
+						{{/pinned}}
+						{{#pinned}}
+							<i onclick="unpin('{{id}}')" class="fa fa-thumb-tack" style="color:yellow;"></i>
+						{{/pinned}}
+					{{/canpin}}
+					{{#canlock}}
+						{{^locked}}
+							<i onclick="lock('{{id}}')" class="fa fa-lock"></i>
+						{{/locked}}
+						{{#locked}}
+							<i onclick="unlock('{{id}}')" class="fa fa-unlock"></i>
+						{{/locked}}
+					{{/canlock}}
+					{{#canmark}}
+						<i onclick="deleteT('{{id}}')" class="fa fa-trash"></i>
+					{{/canmark}}
+				{{/admin}}
         {{#pinned}}
           <span style="color:yellow;font-weight:bold">PINNED: </span>
         {{/pinned}}
