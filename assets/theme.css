@@ -86,12 +86,16 @@ a:visited {
 .closed_thread {
 	color: grey !important;
 }
+
 a.userlink {
 	color: #86C7FF !important;
     text-decoration: underline;
 }
+
 a.userlink:visited {
 	color: #A784E8 !important;
 }
+
 ::-moz-selection { border: 1px solid white }
+
 ::selection { border: 1px solid white }
