@@ -23,8 +23,8 @@ h1 {
 	font-size: 60pt;
 	font-weight: initial;
 	text-align: center;
-	filter: url("../../../../static/assets/filter.svg#svgGlow") !important;
-	-webkit-filter: url("../../../../static/assets/filter.svg#svgGlow") !important;
+	filter: url("/static/assets/filter.svg#svgGlow") !important;
+	-webkit-filter: url("/static/assets/filter.svg#svgGlow") !important;
 }
 
 body {
@@ -38,8 +38,8 @@ body {
 }
 
 body > * {
-	filter: url("../../../../static/assets/filter.svg#svgGlowS");
-	-webkit-filter: url("../../../../static/assets/filter.svg#svgGlowS");
+	filter: url("/static/assets/filter.svg#svgGlowS");
+	-webkit-filter: url("/static/assets/filter.svg#svgGlowS");
 }
 
 textarea, input, button {
